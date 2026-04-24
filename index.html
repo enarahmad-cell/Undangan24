@@ -566,7 +566,118 @@
         }, 1000);
     </script>
 
-```
+```<!-- TAMBAHAN FITUR TANPA MENGUBAH KODE ASLI --><!-- ======================
+1. INPUT NAMA TAMU MANUAL
+====================== --><!-- Letakkan di bawah span guest-name --><div class="mt-4 text-center">
+    <input type="text" id="input-nama-tamu" placeholder="Tulis Nama Tamu..."
+        class="px-4 py-2 rounded-full text-sm text-black text-center border border-white/30">
+    <button onclick="setGuestName()" class="btn-primary mt-3">Set Nama</button>
+</div><script>
+function setGuestName() {
+    const input = document.getElementById('input-nama-tamu').value;
+    if(input.trim() !== "") {
+        document.getElementById('guest-name').innerText = input;
+    }
+}
+</script><!-- ======================
+2. EFEK BUKA AMPLOP
+====================== --><style>
+.envelope {
+    position: fixed;
+    top:0;left:0;width:100%;height:100%;
+    background: var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    z-index:2000;
+}
+
+.envelope-card {
+    width:200px;height:140px;
+    background: var(--gold);
+    position:relative;
+    border-radius:10px;
+    cursor:pointer;
+    transition: transform 1s ease;
+}
+
+.envelope-card:before {
+    content:"";
+    position:absolute;
+    top:0;left:0;width:100%;height:100%;
+    background: var(--gold-light);
+    clip-path: polygon(0 0, 50% 50%, 100% 0);
+    transform-origin: top;
+    transition: transform 1s ease;
+}
+
+.envelope.open .envelope-card:before {
+    transform: rotateX(180deg);
+}
+
+.envelope.hide {
+    opacity:0;
+    pointer-events:none;
+    transition: 1s;
+}
+</style><div id="envelope" class="envelope" onclick="openEnvelope()">
+    <div class="envelope-card"></div>
+</div><script>
+function openEnvelope(){
+    document.getElementById('envelope').classList.add('open');
+    setTimeout(()=>{
+        document.getElementById('envelope').classList.add('hide');
+    },800);
+}
+</script><!-- ======================
+3. UCAPAN + AUTO SAVE WHATSAPP
+====================== --><section id="ucapan" class="text-center px-4 pb-16">
+    <div class="bg-white p-8 rounded-[2rem] shadow border border-gold/10">
+        <h2 class="font-serif text-2xl mb-6 text-gold uppercase tracking-widest">Ucapan & Doa</h2><input type="text" id="namaUcapan" placeholder="Nama Anda" class="rsvp-input">
+    <textarea id="isiUcapan" placeholder="Tulis ucapan & doa..." class="rsvp-input"></textarea>
+
+    <button onclick="kirimUcapanWA()" class="btn-primary w-full">Kirim Ucapan</button>
+
+    <div id="list-ucapan" class="mt-6 text-left space-y-4 max-h-64 overflow-y-auto"></div>
+</div>
+
+</section><script>
+function kirimUcapanWA() {
+    const nama = document.getElementById('namaUcapan').value;
+    const isi = document.getElementById('isiUcapan').value;
+
+    if(nama.trim()===""||isi.trim()==="") return;
+
+    // tampilkan di web
+    const container = document.getElementById('list-ucapan');
+    const card = document.createElement('div');
+    card.className = "p-4 bg-cream rounded-xl border border-gold/20 animate-fadeIn";
+    card.innerHTML = `<b>${nama}</b><br><small>${isi}</small>`;
+    container.prepend(card);
+
+    // kirim ke WA (AUTO SAVE)
+    const text = `Ucapan Pernikahan:\nNama: ${nama}\nPesan: ${isi}`;
+    const url = `https://wa.me/6283818202564?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+
+    document.getElementById('namaUcapan').value="";
+    document.getElementById('isiUcapan').value="";
+}
+</script><!-- ======================
+4. ANIMASI TAMBAHAN
+====================== --><style>
+@keyframes fadeScale {
+    0% {opacity:0; transform: scale(0.95) translateY(20px);} 
+    100% {opacity:1; transform: scale(1) translateY(0);} 
+}
+.animate-fadeIn {animation: fadeScale 0.6s ease forwards;}
+</style><!-- ======================
+5. EFEK GETAR HALUS
+====================== --><script>
+document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if(navigator.vibrate) navigator.vibrate(30);
+    });
+});
+</script>
 
 ody>
 </html>
