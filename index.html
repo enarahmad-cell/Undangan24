@@ -28,21 +28,7 @@
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-cursive { font-family: 'Parisienne', cursive; }
 
-        /* Loader Guard */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--cream);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
+        /* HERO (Amplop) Langsung Muncul */
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
@@ -138,7 +124,7 @@
         .gallery-item {
             position: relative;
             width: 100%;
-            padding-bottom: 100%; /* Membuat kotak bujur sangkar */
+            padding-bottom: 100%;
             overflow: hidden;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -151,23 +137,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-cover: cover;
+            object-fit: cover;
             transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
         }
     </style>
 </head>
 <body class="bg-pattern">
-
-    <div id="loader">
-        <div class="flex flex-col items-center">
-            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold mb-4"></div>
-            <p class="font-serif text-gold italic">Mohon Tunggu...</p>
-        </div>
-    </div>
 
     <div id="petal-container"></div>
     <audio id="music" loop playsinline>
@@ -194,7 +169,7 @@
 
     <div id="main-content" class="hidden">
         <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 overflow-x-auto">
-            <div class="flex whitespace-nowrap p-3 gap-4 justify-center">
+            <div class="flex whitespace-nowrap p-3 gap-6 justify-center">
                 <button onclick="scrollToSection('mempelai')" class="text-[10px] uppercase tracking-widest font-bold">Mempelai</button>
                 <button onclick="scrollToSection('acara')" class="text-[10px] uppercase tracking-widest font-bold">Acara</button>
                 <button onclick="scrollToSection('galeri')" class="text-[10px] uppercase tracking-widest font-bold">Momen</button>
@@ -250,44 +225,39 @@
 
                     <div class="mt-10 text-left">
                         <h3 class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-4">Ucapan Live:</h3>
-                        <div id="live-messages" class="live-messages space-y-4">
-                            </div>
+                        <div id="live-messages" class="live-messages space-y-4"></div>
                     </div>
                 </div>
             </section>
         </div>
     </div>
 
-    <div id="lightbox" onclick="this.style.display='none'" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;cursor:zoom-out;">
-        <img id="lightbox-img" style="max-width:90%;max-height:90%;border-radius:10px;box-shadow:0 0 20px rgba(0,0,0,0.5);">
+    <div id="lightbox" onclick="this.style.display='none'" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;">
+        <img id="lightbox-img" style="max-width:90%;max-height:90%;border-radius:10px;">
     </div>
 
     <script>
-        // Loader Guard
-        window.addEventListener("load", hideLoader);
-        setTimeout(hideLoader, 3000); 
-        function hideLoader() {
-            const loader = document.getElementById("loader");
-            if (loader) {
-                loader.style.opacity = "0";
-                setTimeout(() => loader.style.display = "none", 500);
-            }
-        }
-
-        // URL Name
+        // Set nama tamu
         const urlParams = new URLSearchParams(window.location.search);
         let guest = urlParams.get('to');
         if(guest) document.getElementById('guest-name').innerText = guest.replace(/\b\w/g, l => l.toUpperCase());
 
-        // Open Invitation
+        // Buka Undangan
         function openInvitation() {
             document.getElementById('hero').classList.add('opened');
             document.getElementById('main-content').classList.remove('hidden');
             document.getElementById('disk').style.display = 'flex';
-            document.getElementById('music').play().catch(e => console.log("Audio blocked"));
+            document.getElementById('music').play().catch(e => console.log("Audio play failed"));
             document.getElementById('disk').classList.add('rotate');
             initObserver();
-            initGalleryZoom();
+            
+            // Inisialisasi klik gambar galeri
+            document.querySelectorAll(".gallery-item img").forEach(img => {
+                img.onclick = function() {
+                    document.getElementById("lightbox").style.display = "flex";
+                    document.getElementById("lightbox-img").src = this.src;
+                }
+            });
         }
 
         function toggleMusic() {
@@ -296,23 +266,14 @@
             else { m.pause(); document.getElementById('disk').classList.remove('rotate'); }
         }
 
-        // Galeri Zoom (Tanpa Merubah Apapun)
-        function initGalleryZoom() {
-            document.querySelectorAll(".gallery-item img").forEach(img => {
-                img.addEventListener("click", function() {
-                    document.getElementById("lightbox").style.display = "flex";
-                    document.getElementById("lightbox-img").src = this.src;
-                });
-            });
-        }
-
-        // RSVP to Sheet
+        // Kirim ke Google Sheet
         function sendToSheet(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
             const status = document.getElementById('status').value;
             const msg = document.getElementById('message').value;
             const btn = document.getElementById('submit-btn');
+
             btn.innerText = "Mengirim...";
             btn.disabled = true;
 
@@ -333,10 +294,10 @@
             });
         }
 
-        // Scroll & Observer
         function scrollToSection(id) {
             window.scrollTo({ top: document.getElementById(id).offsetTop - 70, behavior: 'smooth' });
         }
+
         function initObserver() {
             const obs = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
@@ -344,7 +305,7 @@
             document.querySelectorAll('section').forEach(s => obs.observe(s));
         }
 
-        // Petals
+        // Animasi Bunga Jatuh
         setInterval(() => {
             const container = document.getElementById('petal-container');
             const p = document.createElement('div');
