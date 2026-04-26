@@ -419,55 +419,11 @@
         </div>  
     </div>  
   
-    <!-- UI COMPONENTS -->  
-    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-dark-olive/90 text-white px-8 py-3 rounded-full text-xs shadow-2xl opacity-0 transition-all z-[2000] backdrop-blur-md">  
-        Berhasil disalin!  
-    </div>  
-  
-    <script>  
-        // Setup Initial Data  
-        const urlParams = new URLSearchParams(window.location.search);  
-        const guestName = urlParams.get('to');  
-        if(guestName) document.getElementById('guest-name').innerText = guestName;  
-  
-        // Music Logic  
-        const music = document.getElementById('music');  
-        const disk = document.getElementById('disk');  
-        let isPlaying = false;  
-  
-        function playMusic() {  
-            music.play().then(() => {  
-                disk.classList.add('rotate');  
-                isPlaying = true;  
-            }).catch(e => console.log("Autoplay blocked"));  
-        }  
-  
-        function toggleMusic() {  
-            if (isPlaying) {  
-                music.pause();  
-                disk.classList.remove('rotate');  
-            } else {  
-                music.play();  
-                disk.classList.add('rotate');  
-            }  
-            isPlaying = !isPlaying;  
-        }  
-  
-        // Petal Animation  
-        function createPetal() {  
-            const container = document.getElementById('petal-container');  
-            const petal = document.createElement('div');  
-            petal.className = 'petal';  
-            petal.style.left = Math.random() * 100 + 'vw';  
-            const size = Math.random() * 8 + 6;  
-            petal.style.width = size + 'px';  
-            petal.style.height = size + 'px';  
-            petal.style.animationDuration = Math.random() * 4 + 6 + 's';  
-            container.appendChild(petal);  
-            setTimeout(() => petal.remove(), 10000);  
-        }  
-        setInterval(createPetal, 600);  
-  <script>
+    <  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-dark-olive/90 text-white px-8 py-3 rounded-full text-sm opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+    Berhasil disalin!
+</div>
+
+<script>
     // Setup Initial Data
     const urlParams = new URLSearchParams(window.location.search);
     const guestName = urlParams.get('to');
@@ -496,7 +452,7 @@
         isPlaying = !isPlaying;
     }
 
-    // Masukkan fungsi sendToGoogleSheet yang tadi di sini
+    // Fungsi RSVP Google Sheets
     function sendToGoogleSheet(event) {
         event.preventDefault();
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyA4d73aag_0rnt4wfhGkC_fF5nG21UPOmwI4itQ7j_1GqypkldUFlG0Oekm0_ddpN4/exec';
@@ -519,125 +475,31 @@
             alert('Terjadi kesalahan, silakan coba lagi.');
         });
     }
-</script>
 
-        // Navigation & Opening  
-        function openInvitation() {  
-            document.getElementById('hero').classList.add('opened');  
-            document.getElementById('main-content').classList.remove('hidden');  
-            document.getElementById('disk').style.display = 'flex';  
-              
-            setTimeout(() => {  
-                playMusic();  
-                // Trigger intersection observer for sections  
-                initObserver();  
-            }, 500);  
-        }  
-  
-        function scrollToSection(id) {  
-            const target = document.getElementById(id);  
-            const offset = 80; // height of navbar  
-            const bodyRect = document.body.getBoundingClientRect().top;  
-            const elementRect = target.getBoundingClientRect().top;  
-            const elementPosition = elementRect - bodyRect;  
-            const offsetPosition = elementPosition - offset;  
-  
-            window.scrollTo({  
-                top: offsetPosition,  
-                behavior: 'smooth'  
-            });  
-        }  
-  
-        // Section Observer for Fade In & Active Menu  
-        function initObserver() {  
-            const sections = document.querySelectorAll('section');  
-            const navButtons = document.querySelectorAll('.menu-btn');  
-  
-            const observer = new IntersectionObserver((entries) => {  
-                entries.forEach(entry => {  
-                    if (entry.isIntersecting) {  
-                        entry.target.classList.add('visible');  
-                          
-                        // Update active menu  
-                        navButtons.forEach(btn => {  
-                            btn.classList.remove('active');  
-                            if (btn.getAttribute('onclick').includes(entry.target.id)) {  
-                                btn.classList.add('active');  
-                            }  
-                        });  
-                    }  
-                });  
-            }, { threshold: 0.2 });  
-  
-            sections.forEach(section => observer.observe(section));  
-        }  
-  
-        // Clipboard Functionality (Compatible with iframe)  
-        function copyToClipboard(text) {  
-            const textArea = document.createElement("textarea");  
-            textArea.value = text;  
-            document.body.appendChild(textArea);  
-            textArea.select();  
-            try {  
-                document.execCommand('copy');  
-                const toast = document.getElementById('toast');  
-                toast.style.opacity = '1';  
-                setTimeout(() => toast.style.opacity = '0', 2000);  
-            } catch (err) {  
-                console.error('Gagal menyalin', err);  
-            }  
-            document.body.removeChild(textArea);  
-        }  
-  
-        // WhatsApp RSVP  
-        function sendToWhatsapp(e) {  
-            e.preventDefault();  
-            const name = document.getElementById('name').value;  
-            const status = document.getElementById('status').value;  
-            const text = `Halo Ahmad & Septiani, saya ${name} ingin mengonfirmasi bahwa saya akan ${status} di acara pernikahan kalian. Terima kasih!`;  
-            const encodedText = encodeURIComponent(text);  
-            window.open(`https://wa.me/6283818202564?text=${encodedText}`, '_blank');  
-        }  
-  
-        // Countdown Timer  
-        const targetDate = new Date("May 4, 2026 09:00:00").getTime();  
-        setInterval(() => {  
-            const now = new Date().getTime();  
-            const diff = targetDate - now;  
-            if (diff > 0) {  
-                document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));  
-                document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));  
-                document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));  
-                document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);  
-            }  
-        }, 1000);  
-        function sendToGoogleSheet(event) {
-        event.preventDefault();
-        
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyA4d73aag_0rnt4wfhGkC_fF5nG21UPOmwI4itQ7j_1GqypkldUFlG0Oekm0_ddpN4/exec';
-        const form = event.target;
-        const btn = form.querySelector('button[type="submit"]');
-        
-        btn.disabled = true;
-        btn.innerText = "Mengirim...";
+    // Animasi Kelopak Bunga
+    function createPetal() {
+        const container = document.getElementById('petal-container');
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = Math.random() * 100 + 'vw';
+        const size = Math.random() * 8 + 6;
+        petal.style.width = size + 'px';
+        petal.style.height = size + 'px';
+        petal.style.animationDuration = Math.random() * 4 + 6 + 's';
+        container.appendChild(petal);
+        setTimeout(() => petal.remove(), 10000);
+    }
+    setInterval(createPetal, 600);
 
-        fetch(scriptURL, { 
-            method: 'POST', 
-            body: new FormData(form)
-        })
-        .then(response => {
-            btn.disabled = false;
-            btn.innerText = "Kirim Konfirmasi";
-            alert('Terima kasih! Konfirmasi kehadiran Anda telah kami terima.');
-            form.reset();
-        })
-        .catch(error => {
-            btn.disabled = false;
-            btn.innerText = "Kirim Konfirmasi";
-            console.error('Error!', error.message);
-            alert('Terjadi kesalahan, silakan coba lagi.');
-        });
+    // Fungsi Buka Undangan
+    function openInvitation() {
+        document.getElementById('hero').classList.add('opened');
+        document.getElementById('main-content').classList.remove('hidden');
+        document.getElementById('disk').style.display = 'flex';
+        playMusic();
     }
 </script>
 </body>
 </html>
+                        
+                        
