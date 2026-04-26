@@ -229,8 +229,6 @@
   <source src="musik.mp3" type="audio/mp3">
 </audio>
 
-    <source src="musik.mp3" type="audio/mp3">
-</audio>
 
     <div id="disk" class="music-disk" onclick="toggleMusic()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -677,7 +675,23 @@ document.querySelectorAll('button').forEach(btn => {
         if(navigator.vibrate) navigator.vibrate(30);
     });
 });
-</script>
+    </script> <script>
+        // Fungsi untuk mengambil nama dari link (URL)
+        function tampilkanNamaTamu() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nama = urlParams.get('to'); 
+            
+            if (nama) {
+                const namaBersih = decodeURIComponent(nama.replace(/\+/g, ' '));
+                const elemenNama = document.getElementById('guest-name');
+                if (elemenNama) {
+                    elemenNama.innerText = namaBersih;
+                }
+            }
+        }
+        // Jalankan fungsi
+        tampilkanNamaTamu();
+    </script>
 
-ody>
-</html>
+</body> </html>
+
