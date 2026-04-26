@@ -223,6 +223,100 @@ alert("Berhasil dikirim")
 }
 
 </script>
+<!-- LOADER -->
+<div id="loader-premium" style="
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:#f9f7f2;display:flex;justify-content:center;align-items:center;
+z-index:9999;">
+  <h2 style="color:#b89a5e;font-family:serif;">Loading...</h2>
+</div>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" style="
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.9);display:none;
+justify-content:center;align-items:center;z-index:9999;">
+  <span onclick="closeLightbox()" style="
+  position:absolute;top:20px;right:30px;font-size:30px;color:white;cursor:pointer;">×</span>
+  <img id="lightbox-img" style="max-width:90%;max-height:90%;">
+</div>
 </body>
 </html>
+// ===== LOADER =====
+window.addEventListener("load", function(){
+  setTimeout(()=>{
+    const loader = document.getElementById("loader-premium");
+    if(loader){
+      loader.style.opacity = "0";
+      setTimeout(()=> loader.style.display="none",500);
+    }
+  },800);
+});
+
+// ===== NAMA TAMU AMAN =====
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const guest = params.get("to");
+  const el = document.getElementById("guest-name");
+  if(guest && el){
+    el.innerText = guest.replace(/\b\w/g, l=>l.toUpperCase());
+  }
+})();
+
+// ===== GALERI ZOOM (AMAN) =====
+function initGalleryZoom(){
+  const images = document.querySelectorAll("#galeri img");
+  images.forEach(img=>{
+    img.style.cursor="zoom-in";
+    img.addEventListener("click", function(){
+      const box = document.getElementById("lightbox");
+      const imgBox = document.getElementById("lightbox-img");
+      if(box && imgBox){
+        box.style.display="flex";
+        imgBox.src = this.src;
+      }
+    });
+  });
+}
+
+function closeLightbox(){
+  const box = document.getElementById("lightbox");
+  if(box) box.style.display="none";
+}
+
+// ===== TAMBAHAN KE OPEN INVITATION TANPA MERUSAK =====
+const originalOpen = openInvitation;
+openInvitation = function(){
+  originalOpen(); // panggil asli
+
+  setTimeout(()=>{
+    initGalleryZoom();
+  },500);
+};
+
+// ===== FIX RSVP KE GOOGLE SHEET =====
+function sendToWhatsapp(e){
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const status = document.getElementById("status").value;
+
+  if(!name){
+    alert("Nama wajib diisi!");
+    return;
+  }
+
+  fetch("https://script.google.com/macros/s/AKfycbyA4d73aag_0rnt4wfhGkC_fF5nG21UPOmwI4itQ7j_1GqypkldUFlG0Oekm0_ddpN4/exec",{
+    method:"POST",
+    body: JSON.stringify({
+      nama:name,
+      status:status
+    })
+  })
+  .then(()=>{
+    alert("Berhasil dikirim!");
+  })
+  .catch(()=>{
+    alert("Gagal kirim");
+  });
+}
