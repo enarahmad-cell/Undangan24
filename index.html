@@ -563,20 +563,6 @@
                 document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
             }
         }, 1000);
-    </script>
-
-```<!-- TAMBAHAN FITUR TANPA MENGUBAH KODE ASLI --><!-- ======================
-1. INPUT NAMA TAMU MANUAL
-====================== --><!-- Letakkan di bawah span guest-name --><div class="mt-4 text-center">
-    <input type="text" id="input-nama-tamu" placeholder="Tulis Nama Tamu..."
-        class="px-4 py-2 rounded-full text-sm text-black text-center border border-white/30">
-    <button onclick="setGuestName()" class="btn-primary mt-3">Set Nama</button>
-</div><script>
-function setGuestName() {
-    const input = document.getElementById('input-nama-tamu').value;
-    if(input.trim() !== "") {
-        document.getElementById('guest-name').innerText = input;
-    }
 }
 </script><!-- ======================
 2. EFEK BUKA AMPLOP
