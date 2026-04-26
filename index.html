@@ -351,19 +351,29 @@
                     Buka Google Maps  
                 </a>  
             </section>  
-  
-            <section id="hadiah" class="text-center px-4">  
-                <h2 class="font-serif text-2xl mb-4 text-gold uppercase tracking-widest">Wedding Gift</h2>  
-                <div class="gift-card">  
-                    <p class="text-xl font-serif text-dark-olive mb-1 tracking-widest">1832050801</p>  
-                    <p class="text-sm italic mb-6">a.n Ahmad Sunardi</p>  
-                    <button onclick="copyToClipboard('1832050801')" class="text-gold text-xs font-bold border-b border-gold pb-1 uppercase tracking-widest">Salin Rekening</button>  
-                </div>  
-                <div class="gift-card">  
-                    <p class="text-xl font-serif text-dark-olive mb-1 tracking-widest">083818202564</p>  
-                    <p class="text-sm italic mb-6">a.n Septiani</p>  
-                    <button onclick="copyToClipboard('083818202564')" class="text-gold text-xs font-bold border-b border-gold pb-1 uppercase tracking-widest">Salin DANA</button>  
-                </div>  
+  <section id="hadiah" class="text-center px-4">
+    <h2 class="font-serif text-2xl mb-4 text-gold uppercase tracking-widest">Wedding Gift</h2>
+    <p class="text-[10px] text-gray-500 mb-8 italic">Tanpa mengurangi rasa hormat, bagi Anda yang ingin memberikan tanda kasih dapat melalui:</p>
+
+    <div class="gift-card card-bca">
+        <div class="flex justify-center mb-4">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" style="height: 25px;">
+        </div>
+        <p class="text-xl font-serif text-dark-olive mb-1 tracking-widest">1832050801</p>
+        <p class="text-sm italic mb-6 text-gray-500">a.n Ahmad Sunardi</p>
+        <button onclick="copyToClipboard('1832050801')" class="text-gold text-xs font-bold border-b border-gold pb-1 uppercase tracking-widest">Salin Rekening</button>
+    </div>
+
+    <div class="gift-card card-dana">
+        <div class="flex justify-center mb-4">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" style="height: 20px;">
+        </div>
+        <p class="text-xl font-serif text-dark-olive mb-1 tracking-widest">083818202564</p>
+        <p class="text-sm italic mb-6 text-gray-500">a.n Septiani</p>
+        <button onclick="copyToClipboard('083818202564')" class="text-gold text-xs font-bold border-b border-gold pb-1 uppercase tracking-widest">Salin Nomor DANA</button>
+    </div>
+</section>
+
             </section>  
   
             <section id="rsvp" class="text-center px-4 pb-24">  
@@ -444,7 +454,7 @@
         // RSVP logic
         function sendToGoogleSheet(event) {  
             event.preventDefault();  
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbyA4d73aag_0rnt4wfhGkC_fF5nG21UPOmwI4itQ7j_1GqypkldUFlG0Oekm0_ddpN4/exec';  
+            const scriptURL = 'https://https://script.google.com/macros/s/AKfycbyFEF5whrkCH9slZqcGhd8Mt_8LSi4Cj3ybN6NJjvCstWu6JP92noTxWPf0BwNaW-5o/exec;  
             const form = event.target;  
             const btn = form.querySelector('button[type="submit"]');  
             btn.disabled = true; 
