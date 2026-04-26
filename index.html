@@ -28,11 +28,11 @@
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-cursive { font-family: 'Parisienne', cursive; }
 
-        /* HERO (Amplop) Langsung Muncul */
+        /* HERO / AMPLOP */
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://lh3.googleusercontent.com/d/1RirYWGhVEVAqhgzainNE0ZngIWiRy7ji');
+                        url('https://enarahmad-cell.github.io/Undangan24/Asset/bg.jpg');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -47,28 +47,10 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
         .hero.opened { transform: translateY(-100%); }
-
-        .petal {
-            position: fixed;
-            background-color: #ffdef2;
-            border-radius: 150% 0 150% 0;
-            opacity: 0.3;
-            pointer-events: none;
-            z-index: 1;
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
-
-        .bg-pattern { background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png"); }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--gold), var(--gold-light));
@@ -84,36 +66,7 @@
             cursor: pointer;
         }
 
-        .music-disk {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 100;
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            cursor: pointer;
-            border: 2px solid var(--gold);
-        }
-
-        .rotate { animation: rotation 4s infinite linear; }
-        @keyframes rotation { from { transform: rotate(0deg); } to { transform: rotate(359deg); } }
-
-        section { padding: 60px 20px; opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
-        section.visible { opacity: 1; transform: translateY(0); }
-
-        .rsvp-input, .rsvp-textarea {
-            width: 100%; background: #fdfdfd; border: 1px solid #eee; border-radius: 12px; padding: 14px; margin-bottom: 15px;
-        }
-        
-        .live-messages { max-height: 300px; overflow-y: auto; text-align: left; background: #fdfdfd; border-radius: 15px; padding: 15px; }
-
-        /* GALERI RAPI */
+        /* GALERI GRID */
         .gallery-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -128,7 +81,6 @@
             overflow: hidden;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            cursor: zoom-in;
         }
 
         .gallery-item img {
@@ -138,13 +90,27 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
         }
+
+        section { padding: 60px 20px; text-align: center; }
+        .bg-pattern { background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png"); }
+        
+        .rsvp-input, .rsvp-textarea {
+            width: 100%; background: #fdfdfd; border: 1px solid #eee; border-radius: 12px; padding: 14px; margin-bottom: 15px;
+        }
+
+        .music-disk {
+            position: fixed; bottom: 25px; right: 25px; z-index: 100;
+            width: 50px; height: 50px; background: white; border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 2px solid var(--gold);
+        }
+        .rotate { animation: rotation 4s infinite linear; }
+        @keyframes rotation { from { transform: rotate(0deg); } to { transform: rotate(359deg); } }
     </style>
 </head>
 <body class="bg-pattern">
 
-    <div id="petal-container"></div>
     <audio id="music" loop playsinline>
         <source src="Ari.mp3" type="audio/mp3">
     </audio>
@@ -154,7 +120,7 @@
     </div>
 
     <div class="hero" id="hero">
-        <div class="px-4 text-center">
+        <div class="px-4">
             <p class="font-serif italic text-lg mb-4 tracking-[0.3em] uppercase">The Wedding of</p>
             <h1 class="font-cursive text-7xl md:text-8xl mb-8">Ahmad & Septiani</h1>
             <div class="mb-12">
@@ -167,9 +133,10 @@
         </div>
     </div>
 
-    <div id="main-content" class="hidden">
+    <div id="main-content" style="display: none;">
         <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 overflow-x-auto">
             <div class="flex whitespace-nowrap p-3 gap-6 justify-center">
+                <button onclick="scrollToSection('opening')" class="text-[10px] uppercase tracking-widest font-bold">Bismillah</button>
                 <button onclick="scrollToSection('mempelai')" class="text-[10px] uppercase tracking-widest font-bold">Mempelai</button>
                 <button onclick="scrollToSection('acara')" class="text-[10px] uppercase tracking-widest font-bold">Acara</button>
                 <button onclick="scrollToSection('galeri')" class="text-[10px] uppercase tracking-widest font-bold">Momen</button>
@@ -178,17 +145,30 @@
         </nav>
 
         <div class="max-w-xl mx-auto">
-            <section id="mempelai" class="text-center">
-                <img src="https://lh3.googleusercontent.com/d/1tYsjGuJVtKht7P9GphwTUz7hxSoePjZ-" class="w-40 h-40 mx-auto rounded-full border-4 border-white shadow-xl object-cover mb-6">
-                <h3 class="font-cursive text-4xl mb-2">Ahmad Sunardi</h3>
-                <p class="font-serif italic text-sage mb-12">Putra Bapak Edi & Ibu Manah</p>
-                <div class="font-cursive text-3xl text-gold mb-12">&</div>
-                <img src="https://lh3.googleusercontent.com/d/1dNv1WdtE7IkfU39BU_3_h1q75xIu0P8p" class="w-40 h-40 mx-auto rounded-full border-4 border-white shadow-xl object-cover mb-6">
-                <h3 class="font-cursive text-4xl mb-2">Septiani Putri H.</h3>
-                <p class="font-serif italic text-sage">Putri Bapak Hermanto & Ibu Paitah</p>
+            
+            <section id="opening" class="pt-16">
+                <h2 class="font-serif text-2xl mb-6 italic">Assalamu’alaikum Wr. Wb.</h2>
+                <p class="leading-relaxed text-gray-600 italic px-6 mb-4 text-sm">
+                    "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+                </p>
+                <p class="text-[10px] uppercase tracking-widest text-gold font-bold">(QS. Ar-Rum: 21)</p>
             </section>
 
-            <section id="acara" class="text-center px-4">
+            <section id="mempelai">
+                <div class="mb-12">
+                    <img src="Fotoir.jpg" class="w-44 h-44 mx-auto rounded-full border-4 border-white shadow-xl object-cover mb-6">
+                    <h3 class="font-cursive text-4xl mb-2">Ahmad Sunardi</h3>
+                    <p class="font-serif italic text-sage">Putra Bapak Edi & Ibu Manah</p>
+                </div>
+                <div class="font-cursive text-4xl text-gold my-8">&</div>
+                <div class="mb-12">
+                    <img src="Fotoir1.jpg" class="w-44 h-44 mx-auto rounded-full border-4 border-white shadow-xl object-cover mb-6">
+                    <h3 class="font-cursive text-4xl mb-2">Septiani Putri H.</h3>
+                    <p class="font-serif italic text-sage">Putri Bapak Hermanto & Ibu Paitah</p>
+                </div>
+            </section>
+
+            <section id="acara">
                 <div class="bg-[#7d8e7b] text-white p-10 rounded-[2rem]">
                     <h2 class="font-serif text-2xl mb-4 uppercase tracking-widest">Akad & Resepsi</h2>
                     <p class="font-light">Senin, 04 Mei 2026</p>
@@ -196,24 +176,20 @@
                 </div>
             </section>
 
-            <section id="galeri" class="text-center">
-                <h2 class="font-serif text-2xl mb-10 uppercase tracking-widest text-gold">Galeri Momen</h2>
+            <section id="galeri">
+                <h2 class="font-serif text-2xl mb-10 uppercase tracking-widest text-gold">Momen Bahagia</h2>
                 <div class="gallery-container">
-                    <div class="gallery-item"><img src="https://lh3.googleusercontent.com/d/1SGhn8Z0EzEF48nZjDKl399c_VIao5eZP"></div>
-                    <div class="gallery-item"><img src="https://lh3.googleusercontent.com/d/1x-gq02lYMW7emDz7UkkER_UIjXWlv-Zz"></div>
                     <div class="gallery-item"><img src="Fotoir.jpg"></div>
                     <div class="gallery-item"><img src="Fotoir1.jpg"></div>
                     <div class="gallery-item"><img src="Fotoir2.jpg"></div>
-                    <div class="gallery-item"><img src="https://lh3.googleusercontent.com/d/1eXJtGgX6Bppau0ZgDajL1oQ-tj5ZuFr-"></div>
                     <div class="gallery-item"><img src="DSC03505.jpg"></div>
-                    <div class="gallery-item"><img src="DSC03508.jpg"></div>
                 </div>
             </section>
 
-            <section id="rsvp" class="text-center px-4 pb-24">
+            <section id="rsvp" class="pb-24">
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gold/10">
                     <h2 class="font-serif text-2xl mb-8 text-gold uppercase tracking-widest">Doa Restu</h2>
-                    <form onsubmit="sendToSheet(event)">
+                    <form id="rsvp-form" onsubmit="sendToSheet(event)">
                         <input type="text" id="name" required placeholder="Nama Lengkap" class="rsvp-input">
                         <select id="status" class="rsvp-input">
                             <option value="Hadir">Insya Allah Hadir</option>
@@ -222,42 +198,23 @@
                         <textarea id="message" required placeholder="Tulis Doa & Ucapan..." class="rsvp-textarea" rows="3"></textarea>
                         <button type="submit" id="submit-btn" class="btn-primary w-full">Kirim Ucapan</button>
                     </form>
-
-                    <div class="mt-10 text-left">
-                        <h3 class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-4">Ucapan Live:</h3>
-                        <div id="live-messages" class="live-messages space-y-4"></div>
-                    </div>
+                    <div id="live-messages" class="mt-8 text-left space-y-4"></div>
                 </div>
             </section>
         </div>
     </div>
 
-    <div id="lightbox" onclick="this.style.display='none'" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;">
-        <img id="lightbox-img" style="max-width:90%;max-height:90%;border-radius:10px;">
-    </div>
-
     <script>
-        // Set nama tamu
         const urlParams = new URLSearchParams(window.location.search);
         let guest = urlParams.get('to');
         if(guest) document.getElementById('guest-name').innerText = guest.replace(/\b\w/g, l => l.toUpperCase());
 
-        // Buka Undangan
         function openInvitation() {
             document.getElementById('hero').classList.add('opened');
-            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('main-content').style.display = 'block';
             document.getElementById('disk').style.display = 'flex';
             document.getElementById('music').play().catch(e => console.log("Audio play failed"));
             document.getElementById('disk').classList.add('rotate');
-            initObserver();
-            
-            // Inisialisasi klik gambar galeri
-            document.querySelectorAll(".gallery-item img").forEach(img => {
-                img.onclick = function() {
-                    document.getElementById("lightbox").style.display = "flex";
-                    document.getElementById("lightbox-img").src = this.src;
-                }
-            });
         }
 
         function toggleMusic() {
@@ -266,13 +223,12 @@
             else { m.pause(); document.getElementById('disk').classList.remove('rotate'); }
         }
 
-        // Kirim ke Google Sheet
         function sendToSheet(e) {
             e.preventDefault();
+            const btn = document.getElementById('submit-btn');
             const name = document.getElementById('name').value;
             const status = document.getElementById('status').value;
             const msg = document.getElementById('message').value;
-            const btn = document.getElementById('submit-btn');
 
             btn.innerText = "Mengirim...";
             btn.disabled = true;
@@ -284,12 +240,11 @@
             }).then(() => {
                 const container = document.getElementById('live-messages');
                 const div = document.createElement('div');
-                div.className = "border-b border-gray-50 pb-3";
-                div.innerHTML = `<p class="text-xs font-bold text-gold">${name} <span class="font-normal text-gray-400">• ${status}</span></p>
-                                 <p class="text-sm text-gray-600 mt-1">${msg}</p>`;
+                div.className = "p-3 bg-gray-50 rounded-lg border-l-4 border-gold text-left";
+                div.innerHTML = `<p class="text-xs font-bold text-gold">${name} • <span class="text-gray-400 font-normal">${status}</span></p><p class="text-sm text-gray-600">${msg}</p>`;
                 container.prepend(div);
                 btn.innerText = "Terkirim ✓";
-                e.target.reset();
+                document.getElementById('rsvp-form').reset();
                 setTimeout(() => { btn.innerText = "Kirim Ucapan"; btn.disabled = false; }, 3000);
             });
         }
@@ -297,25 +252,6 @@
         function scrollToSection(id) {
             window.scrollTo({ top: document.getElementById(id).offsetTop - 70, behavior: 'smooth' });
         }
-
-        function initObserver() {
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('section').forEach(s => obs.observe(s));
-        }
-
-        // Animasi Bunga Jatuh
-        setInterval(() => {
-            const container = document.getElementById('petal-container');
-            const p = document.createElement('div');
-            p.className = 'petal';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.width = p.style.height = (Math.random() * 7 + 5) + 'px';
-            p.style.animationDuration = (Math.random() * 3 + 5) + 's';
-            container.appendChild(p);
-            setTimeout(() => p.remove(), 8000);
-        }, 800);
     </script>
 </body>
 </html>
