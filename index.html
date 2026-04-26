@@ -416,13 +416,15 @@
             <footer class="py-12 text-center text-gray-400 text-[9px] tracking-[0.4em] uppercase border-t border-gray-100 mx-10">  
                 <p>Ahmad & Septiani Wedding • 2026</p>  
             </footer>  
-        </div>  
-    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-dark-olive/90 text-white px-8 py-3 rounded-full text-sm opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+            </div>
+</section>
+
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-dark-olive/90 text-white px-8 py-3 rounded-full text-sm opacity-0 pointer-events-none transition-opacity duration-300 z-50">
     Berhasil disalin!
 </div>
 
 <script>
-    // 1. Setup Initial Data
+    // 1. Setup Data Tamu
     const urlParams = new URLSearchParams(window.location.search);
     const guestName = urlParams.get('to');
     if (guestName) {
@@ -430,7 +432,7 @@
         if(guestElement) guestElement.innerText = guestName;
     }
 
-    // 2. Music Logic
+    // 2. Logika Musik
     const music = document.getElementById('music');
     const disk = document.getElementById('disk');
     let isPlaying = false;
@@ -479,7 +481,7 @@
         });
     }
 
-    // 4. Animasi Kelopak Bunga
+    // 4. Animasi Bunga
     function createPetal() {
         const container = document.getElementById('petal-container');
         if(!container) return;
