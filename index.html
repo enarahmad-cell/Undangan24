@@ -227,6 +227,30 @@
             fill: var(--gold);  
             opacity: 0.6;  
         }  
+        #live-comments{
+  margin-top:20px;
+}
+
+.comment-box{
+  background:#ffffff;
+  padding:15px;
+  margin-bottom:10px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.comment-box h4{
+  margin:0;
+  font-size:16px;
+}
+
+.comment-box small{
+  color:#777;
+}
+
+.comment-box p{
+  margin-top:8px;
+}
     </style>  
 </head>  
 <body class="bg-pattern">  
@@ -456,9 +480,10 @@
   
         // RSVP logic
         function sendToGoogleSheet(event) {
+            <div id="live-comments"></div>
   event.preventDefault();
 
-  const scriptURL = "https://script.google.com/macros/s/AKfycby7cZuGCFVe4w0RHIRAo9UPwAjwgQ44Qgkcvnt3i0xyx6t4-kCfwg7bGCqLxO_P_jCbvg/exec";
+  const scriptURL = "htps://script.google.com/macros/s/AKfycbxIp388V_S-wrhCFDDvw607_aWc6Qhaue0XDI1N6JLCVCmni0U-7xG8VedCMt-cWKlpYg/exec";
   const form = event.target;
   const btn = form.querySelector('button[type="submit"]');
 
@@ -529,6 +554,30 @@
             document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
         }, 1000);
+   function loadComments() {
+  fetch("https://script.google.com/macros/s/AKfycbxIp388V_S-wrhCFDDvw607_aWc6Qhaue0XDI1N6JLCVCmni0U-7xG8VedCMt-cWKlpYg/exec")
+    .then(res => res.json())
+    .then(data => {
+
+      let html = "";
+
+      data.reverse().forEach(item => {
+        html += `
+          <div class="comment-box">
+            <h4>${item.nama}</h4>
+            <small>${item.hadir}</small>
+            <p>${item.ucapan}</p>
+          </div>
+        `;
+      });
+
+      document.getElementById("live-comments").innerHTML = html;
+    })
+    .catch(err => console.log(err));
+}
+
+loadComments();
+setInterval(loadComments, 5000);
     </script>  
 </body>  
 </html>
