@@ -479,8 +479,9 @@
         }  
   
         // RSVP logic
+    
         function sendToGoogleSheet(event) {
-            <div id="live-comments"></div>
+            
   event.preventDefault();
 
   const scriptURL = "htps://script.google.com/macros/s/AKfycbxIp388V_S-wrhCFDDvw607_aWc6Qhaue0XDI1N6JLCVCmni0U-7xG8VedCMt-cWKlpYg/exec";
@@ -559,7 +560,7 @@
     .then(res => res.json())
     .then(data => {
 
-      let html = "";
+      let html =";
 
       data.reverse().forEach(item => {
         html += `
