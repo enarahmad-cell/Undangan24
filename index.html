@@ -455,25 +455,40 @@
         }  
   
         // RSVP logic
-        function sendToGoogleSheet(event) {  
-            event.preventDefault();  
-            const scriptURL ='https://script.google.com/macros/s/AKfycbyhk_uhCFtXfPpzF3IMRGNeOxAgLEtdmeZq0MZ3yYDRAGADIkPrxKe6BFX1wbKkkA8G/exec';  
-            const form = event.target;  
-            const btn = form.querySelector('button[type="submit"]');  
-            btn.disabled = true; 
-            btn.innerText = "Mengirim...";  
-  
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})  
-            .then(response => {  
-                alert('Terima kasih! Konfirmasi Anda telah kami terima.');  
-                btn.disabled = false; btn.innerText = "Kirim Konfirmasi";  
-                form.reset();  
-            })  
-            .catch(error => {  
-                alert('Terjadi kesalahan.');  
-                btn.disabled = false; btn.innerText = "Kirim Konfirmasi";  
-            });  
-        }  
+        function sendToGoogleSheet(event) {
+  event.preventDefault();
+
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwqQ6Lz5e0yaB4MCMPfLLpwlUX2HzfDUyzEgtF-svgTXUUzdDHRmmjFgRk2JFgRZg/exec";
+  const form = event.target;
+  const btn = form.querySelector('button[type="submit"]');
+
+  btn.disabled = true;
+  btn.innerText = "Mengirim...";
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: new FormData(form)
+  })
+  .then(res => res.text())
+  .then(res => {
+    console.log("RESPONSE:", res);
+
+    if (res !== "success") {
+      throw new Error("Response bukan success");
+    }
+
+    alert('Terima kasih! Konfirmasi Anda telah kami terima.');
+    form.reset();
+  })
+  .catch(err => {
+    console.error("ERROR:", err);
+    alert('Terjadi kesalahan: ' + err.message);
+  })
+  .finally(() => {
+    btn.disabled = false;
+    btn.innerText = "Kirim Konfirmasi";
+  });
+        }
   
         // Petal Animation
         function createPetal() {  
